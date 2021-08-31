@@ -1,0 +1,67 @@
+{
+  "name": "telios/client-sdk",
+  "version": "1.0.0",
+  "description": "SDK for the Telios platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "cross-env NODE_ENV=test_sdk tape tests/setup.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/account.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/mailbox.test.js | tap-spec",
+    "debug": "cross-env NODE_ENV=test_sdk tape tests/drive.test.js | tap-spec --nolazy --debug-brk=5858"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Telios-org/client-sdk"
+  },
+  "author": "Hexadecibal",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Telios-org/client-sdk/issues"
+  },
+  "homepage": "https://github.com/Telios-org/client-sdk",
+  "dependencies": {
+    "@geut/hypercore-promise": "^2.1.1",
+    "@hyperswarm/dht": "^5.0.0-rc.2",
+    "@telios/nebula-drive": "^1.0.4",
+    "async": "^3.2.0",
+    "axios": "^0.21.1",
+    "bip39": "^3.0.4",
+    "blakejs": "^1.1.0",
+    "chokidar": "^3.5.1",
+    "corestore": "^5.8.2",
+    "dat-encoding": "^5.0.1",
+    "jwt-decode": "^2.2.0",
+    "level": "^6.0.1",
+    "mailparser": "^2.8.1",
+    "memorystream": "^0.3.1",
+    "moment": "^2.27.0",
+    "multifeed": "^6.0.0",
+    "p2plex": "^1.5.0",
+    "pump": "^3.0.0",
+    "random-access-memory": "^3.1.1",
+    "rimraf": "^3.0.2",
+    "sodium-native": "^3.2.0",
+    "uuid": "^8.2.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "del": "^6.0.0",
+    "husky": "^6.0.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^5.2.2",
+    "tape-promise": "^4.0.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "keywords": [
+    "telios-sdk",
+    "telios",
+    "private",
+    "email"
+  ],
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true"
+    }
+  }
+}
