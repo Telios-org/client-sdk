@@ -1,5 +1,7 @@
 # Telios Client SDK
 
+![Build Status](https://github.com/Telios-org/client-sdk/actions/workflows/node.js.yml/badge.svg)
+
 This package provides components for building an email client using the [Telios Network](https://www.telios.io). Telios is an offline-capabale e2e encrypted email service built on [hypercore-protocol](https://hypercore-protocol.org/) for sending and receiving emails.
 
 ## What does this SDK do?
