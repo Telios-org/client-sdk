@@ -1,5 +1,5 @@
 {
-  "name": "telios/client-sdk",
+  "name": "@telios/client-sdk",
   "version": "1.0.0",
   "description": "SDK for the Telios platform",
   "main": "index.js",
