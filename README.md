@@ -56,13 +56,13 @@ const res = await account.register(registerPayload);
 
 # API/Examples
 
-### `const account = new Account(provider)`
+#### `const account = new Account(provider)`
 
 The Account class handles communication with the Telios server and provides methods for creating request payloads.
 
 - `provider`: Base URL of the API provider
 
-### `const { secretBoxKeypair, signingKeypair, mnemonic } = Account.makeKeys([mnemonic])`
+#### `const { secretBoxKeypair, signingKeypair, mnemonic } = Account.makeKeys([mnemonic])`
 
 Keypairs will need to be initially created before any other actions can be taken. These keys will be used for encrypting/decrypting data on the client and from other users. The private keys should be stored somewhere safe (and encrypted) and never shared. The public keys generated will be used for encrypting a recipient's data and can be shared publicly.
 
@@ -73,7 +73,7 @@ Returns:
 - `signingKeypair`: Public/private signing keys for the account
 - `mnemonic`: If no mnemonic is passed in as an argument a new one is generated and passed back with the keys that were created from it.
 
-### `Account.init(acctPayload, privateKey)`
+#### `Account.init(acctPayload, privateKey)`
 
 Prepares an account registration payload
 
@@ -87,7 +87,7 @@ Prepares an account registration payload
     - `device_peer_key`: Public key used for connecting to other peers over plex/hyperswarm
 - `privateKey`: Private key for the account
 
-### `await account.register(accountPayload)`
+#### `await account.register(accountPayload)`
 
 Registers a new account with the API server. This method requires a verification code (`vcode`) in order for the backend to create the account. Examples on how to generate verification codes are listed below.
 
@@ -170,7 +170,7 @@ Example response:
 
 The `sig` returned will be required for authentication and should be stored and encrypted locally. This, along with the account's signing key will be used to create a unique access token for every request.
 
-### `const mailbox = new Mailbox(provider, auth)`
+#### `const mailbox = new Mailbox(provider, auth)`
 
 The Mailbox class provides functionality needed for processing encrypted emails.
 
@@ -217,7 +217,7 @@ Example response:
 }
 ```
 
-### `await mailbox.getMailboxPubKeys(addresses)`
+#### `await mailbox.getMailboxPubKeys(addresses)`
 
 A recipient's account's public key is required for sending encrypted emails within the Telios network. `getMailboxPubKeys` takes an array of recipient's addresses and returns their corresponding public key.
 
@@ -247,7 +247,7 @@ Example response:
 ];
 ```
 
-### `mailbox.send(email, { privKey, pubKey, drive, filePath })`
+#### `mailbox.send(email, { privKey, pubKey, drive, filePath })`
 
 When sending an email to multiple recipients, the recipient's email domain is checked
 if it matches telios.io. In this case the email is encrypted, stored on the local drive, and an encrypted message
@@ -322,7 +322,7 @@ const res = await mailbox.send(email, {
 });
 ```
 
-### `await mailbox.getNewMail(acctPrivKey, acctPubKey)`
+#### `await mailbox.getNewMail(acctPrivKey, acctPubKey)`
 
 - `acctPrivKey`: Your account's private key
 - `acctPubKey`: Your account's public key
@@ -382,7 +382,7 @@ Example response:
 ];
 ```
 
-### `await mailbox.markAsSynced(ids)`
+#### `await mailbox.markAsSynced(ids)`
 
 After an email has been pulled down onto your local devices its meta record can be safely removed from the server.
 
@@ -395,7 +395,7 @@ Example usage:
 const res = await mailbox.markAsSynced(["5f1210b7a29fe6222f199f80"]);
 ```
 
-### `await mailbox.registerAliasName(nameObj)`
+#### `await mailbox.registerAliasName(nameObj)`
 
 Example Alias: `alice2000`#`netflix`@telios.io
 
@@ -430,7 +430,7 @@ Example response:
 }
 ```
 
-### `await mailbox.registerAliasAddress(addressObj)`
+#### `await mailbox.registerAliasAddress(addressObj)`
 
 Example Alias: `alice2000`#`netflix`@telios.io
 
@@ -465,7 +465,7 @@ Example response:
 }
 ```
 
-### `await mailbox.updateAliasAddress(addressObj)`
+#### `await mailbox.updateAliasAddress(addressObj)`
 
 Update an existing alias address.
 
@@ -493,7 +493,7 @@ Example response:
 }
 ```
 
-### `await mailbox.removeAliasAddress(address)`
+#### `await mailbox.removeAliasAddress(address)`
 
 Removes an alias address.
 
