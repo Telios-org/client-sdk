@@ -401,7 +401,7 @@ Example Alias: `alice2000`#`netflix`@telios.io
 
 `alice2000` = Alias Namespace
 
-Registers a new alias namespace. Namespaces must be unique and are account bound. Each namespace can potentially hold an inifite number of alias addresses under each namespace.
+Registers a new alias namespace. Namespaces must be unique and are account bound. Each namespace can potentially hold an infinite number of alias addresses under each namespace.
 
 - `alias_name`: Desired namespace `alice2000`
 - `domain`: Domain for the namespace in the following format `telios.io`
