@@ -93,3 +93,7 @@ test("Account - Create auth token", async (t) => {
   const payload = Account.createAuthToken(claims, conf.ALICE_SIG_PRIV_KEY);
   t.ok(payload, "Account has authorization payload");
 });
+
+test.onFinish(async () => {
+  process.exit(0);
+});
