@@ -9,6 +9,6 @@ test('Test Setup', async t => {
   t.ok(1);
 });
 
-test.onFinish(async () => {
-  process.exit(0);
-});
+// test.onFinish(async () => {
+//   process.exit(0);
+// });

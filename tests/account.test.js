@@ -25,10 +25,10 @@ test("Account - Make Keypairs", async (t) => {
 
   t.equals(recovered.secretBoxKeypair.privateKey, keyPair.secretBoxKeypair.privateKey, 'Recovered secretBoxKeypair private keys match.');
   t.equals(recovered.secretBoxKeypair.publicKey, keyPair.secretBoxKeypair.publicKey, 'Recovered secretBoxKeypair public keys match.');
-  
+
   t.equals(recovered.signingKeypair.privateKey, keyPair.signingKeypair.privateKey, 'Recovered signingKeypair private keys match.');
   t.equals(recovered.signingKeypair.publicKey, keyPair.signingKeypair.publicKey, 'Recovered signingKeypair public keys match.');
-  
+
   t.end();
 });
 
@@ -48,7 +48,7 @@ test("Account - Init", async (t) => {
     };
 
     const { account, sig } = await Account.init(opts, conf.ALICE_SIG_PRIV_KEY);
-    
+
     t.ok(account, "Account object returned");
     t.ok(sig, "Account object signed");
   } catch (err) {
@@ -92,8 +92,4 @@ test("Account - Create auth token", async (t) => {
 
   const payload = Account.createAuthToken(claims, conf.ALICE_SIG_PRIV_KEY);
   t.ok(payload, "Account has authorization payload");
-});
-
-test.onFinish(async () => {
-  process.exit(0);
 });
