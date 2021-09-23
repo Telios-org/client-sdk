@@ -476,9 +476,9 @@ Update an existing alias address.
 Example usage:
 
 ```js    
-const res = await mailbox.registerAliasAddress({ 
+const res = await mailbox.updateAliasAddress({ 
   alias_address: 'alice2000#netflix@telios.io',
-  forwards_to: [],
+  forwards_to: ['newforward@domain.com'],
   whitelisted: true 
 });
 ```
@@ -488,7 +488,7 @@ Example response:
 ```js
 {
     "address": "alice2000#netflix@telios.io",
-    "forwards_to": [],
+    "forwards_to": ['newforward@domain.com'],
     "whitelisted": true
 }
 ```
