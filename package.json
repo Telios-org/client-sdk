@@ -1,6 +1,6 @@
 {
   "name": "@telios/client-sdk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "SDK for the Telios platform",
   "main": "index.js",
   "scripts": {
@@ -34,7 +34,6 @@
     "memorystream": "^0.3.1",
     "moment": "^2.27.0",
     "multifeed": "^6.0.0",
-    "p2plex": "^1.5.0",
     "pump": "^3.0.0",
     "random-access-memory": "^3.1.1",
     "rimraf": "^3.0.2",
