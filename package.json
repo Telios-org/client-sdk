@@ -19,7 +19,7 @@
   "homepage": "https://github.com/Telios-org/client-sdk",
   "dependencies": {
     "@geut/hypercore-promise": "^2.1.1",
-    "@hyperswarm/dht": "^5.0.0-rc.2",
+    "@hyperswarm/dht": "next",
     "@telios/nebula-drive": "^1.0.7",
     "async": "^3.2.0",
     "axios": "^0.21.1",
