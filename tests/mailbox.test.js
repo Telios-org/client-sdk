@@ -334,6 +334,5 @@ test('Mailbox - Retrieve unread mail and decrypt', async t => {
 
 test.onFinish(async () => {
   fs.unlinkSync(metaFilePath);
-  await localDrive.close();
   process.exit(0);
 });
