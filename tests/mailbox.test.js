@@ -207,6 +207,15 @@ test('Mailbox - Get public keys', async t => {
   t.equals(1, res.length, 'Returned 1 mailbox public key');
 });
 
+test('Mailbox - test is valid recovery email', async t => {
+  t.plan(1);
+
+  const mailbox = await initMailbox();
+  const res = await mailbox.isValidRecoveryEmail('alice@telios.io');
+
+  t.ok(res, 'Recovery email is valid');
+});
+
 test('Mailbox - Mark emails as synced', async t => {
   t.plan(1);
 

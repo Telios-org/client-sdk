@@ -247,6 +247,18 @@ Example response:
 ];
 ```
 
+#### `await mailbox.isValidRecoveryEmail(email)`
+
+Test if an email recovery address is valid and or has not already been used by another account.
+
+- `email`: A recovery email address `alice@email.com`
+
+Example usage:
+
+```js
+const res = await mailbox.isValidRecoveryEmail("alice@telios.io");
+```
+
 #### `mailbox.send(email, { privKey, pubKey, drive, filePath })`
 
 When sending an email to multiple recipients, the recipient's email domain is checked
