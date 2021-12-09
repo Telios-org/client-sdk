@@ -305,13 +305,13 @@ const email = {
   "attachments": [
     {
       "filename": "test.pdf",
-      "fileblob": "--base64-data--",
-      "mimetype": "application/pdf"
+      "content": "--base64-data--",
+      "contentType": "application/pdf"
     },
     {
       "filename": "test.txt",
-      "fileblob": "--base64-data--",
-      "mimetype": "text/plain"
+      "content": "--base64-data--",
+      "contentType": "text/plain"
     }
   ]
 }
@@ -381,13 +381,13 @@ Example response:
     attachments: [
       {
         filename: "test.pdf",
-        fileblob: "--base64-data--",
-        mimetype: "application/pdf",
+        content: "--base64-data--",
+        contentType: "application/pdf",
       },
       {
         filename: "test.txt",
-        fileblob: "--base64-data--",
-        mimetype: "text/plain",
+        content: "--base64-data--",
+        contentType: "text/plain",
       },
     ],
   },
