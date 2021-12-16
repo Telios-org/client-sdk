@@ -31,10 +31,8 @@ const initPayload = {
   account: {
     account_key: secretBoxKeypair.publicKey,
     recovery_email: recoveryEmail,
-    device_drive_key: driveKey,
-    device_drive_diff_key: driveDiffKey,
-    device_signing_key: signingKeypair.publicKey,
-    device_peer_key: peerKeypair.publicKey
+    device_drive_key: drivePublicKey,
+    device_signing_key: signingKeypair.publicKey
   },
 };
 
@@ -82,10 +80,18 @@ Prepares an account registration payload
     - `account_key`: Public key for the account
     - `device_drive_key`: Public key of the drive created for the device `drive.publicKey`
     - `recovery_email`: Recovery email in plaintext. This is immediately hashed and stored once sent to the backend
-    - `device_drive_diff_key`: Device's drive diff database key used for syncing peer drives `drive.diffFeedKey`
     - `device_signing_key`: Public signing key for your device
-    - `device_peer_key`: Public key used for connecting to other peers over plex/hyperswarm
 - `privateKey`: Private key for the account
+
+Returns:
+
+- `account`: Public/private keys for the account
+  - `account_key`: Public key for the account
+  - `device_drive_key`: Public key of the drive created for the device `drive.publicKey`
+  - `recovery_email`: Recovery email in plaintext. This is immediately hashed and stored once sent to the backend
+  - `device_signing_key`: Public signing key for your device
+  - `device_id`: UUID for this device
+- `sig`: Public/private signing keys for the account
 
 #### `await account.register(accountPayload)`
 
@@ -96,9 +102,7 @@ Registers a new account with the API server. This method requires a verification
     - `account_key`: Public key for the account
     - `device_drive_key`: Public key of the drive created for the device `drive.publicKey`
     - `recovery_email`: Recovery email in plaintext. This is immediately hashed and stored once sent to the backend
-    - `device_drive_diff_key`: Device's drive diff database key used for syncing peer drives `drive.diffFeedKey`
     - `device_signing_key`: Public signing key for your device
-    - `device_peer_key`: Public key used for connecting to other peers over plex/hyperswarm
     - `device_id`: UUID for this device
   - `sig`: Signature returned from `Account.init`
   - `vcode`: Verification code sent to the recovery email.
