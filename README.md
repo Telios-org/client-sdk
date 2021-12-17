@@ -20,9 +20,7 @@ npm i @telios/client-sdk
 const { Account, Mailbox } = require("@telios/client-sdk");
 const { secretBoxKeypair, signingKeypair, mnemonic } = Account.makeKeys();
 
-const account = new Account({
-  provider: "https://apiv1.telios.io",
-});
+const account = new Account('https://apiv1.telios.io');
 
 // Verification code sent to the recovery email
 const vcode = "Xf1sP4";
@@ -37,8 +35,8 @@ const initPayload = {
 };
 
 const { account, sig } = await Account.init(
-  signingKeypair.privateKey,
-  initPayload
+  initPayload,
+  signingKeypair.privateKey
 );
 
 const registerPayload = {
