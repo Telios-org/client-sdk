@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { Account } = require("../../");
+const ClientSDK = require("../../index");
 const del = require("del");
 
 module.exports.init = async () => {
@@ -55,6 +55,8 @@ async function cleanup() {
 }
 
 async function initVars() {
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io'})
   const tmpFilePath = path.join(__dirname, "../vars.tmp.json");
   const templatePath = path.join(__dirname, "../vars.json");
   let testVars = null;
@@ -66,6 +68,8 @@ async function initVars() {
     fs.writeFileSync(tmpFilePath, JSON.stringify(testVars));
   }
 
+  const Account = clientSDK.Account;
+  
   // Mock server key bundle
   const serverKeys = Account.makeKeys();
 

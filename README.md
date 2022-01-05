@@ -17,10 +17,11 @@ npm i @telios/client-sdk
 ## Usage
 
 ```js
-const { Account, Mailbox } = require("@telios/client-sdk");
+const ClientSDK = require("@telios/client-sdk");
+const teliosSDK = await new ClientSDK({
+    provider: 'https://apiv1.telios.io'})
+const Account = teliosSDK.Account
 const { secretBoxKeypair, signingKeypair, mnemonic } = Account.makeKeys();
-
-const account = new Account('https://apiv1.telios.io');
 
 // Verification code sent to the recovery email
 const vcode = "Xf1sP4";
@@ -51,12 +52,81 @@ const res = await account.register(registerPayload);
 ```
 
 # API/Examples
+### `const teliosSDK = new ClientSDK(opts)`
 
-#### `const account = new Account(provider)`
+The ClientSDK class instantiates the Account and Mailbox Class as well as gives access to a host of utility functions under the Crypto module.
 
-The Account class handles communication with the Telios server and provides methods for creating request payloads.
+- `opts`: allows you to set class variables `auth` and `provider`
+  - `provider`: Base URL of the API provider
+  - `auth`
+    - `claims`
+      - `device_signing_key`:
+      - `account_key`:
+      - `device_peer_key`:
+      - `device_id`:
+    - `device_signing_priv_key`:
+    - `sig`: Signature sent from the Telios server when this account was registered.
+
+The variables are accessible through the instance of `ClientSDK` as shown in the example below.
+
+### `teliosSDK.setProvider(provider)`
+
+This is a method allowing you to set the provider within the instantiated class.
 
 - `provider`: Base URL of the API provider
+
+### `teliosSDK.setAuthPayload(auth)`
+
+This is a method allowing you to set the auth payload within the instantiated class.
+
+ - `auth`
+    - `claims`
+      - `device_signing_key`:
+      - `account_key`:
+      - `device_peer_key`:
+      - `device_id`:
+    - `device_signing_priv_key`:
+    - `sig`: Signature sent from the Telios server when this account was registered.
+
+
+```js
+
+const ClientSDK = require("@telios/client-sdk");
+const teliosSDK = await new ClientSDK()
+
+// Account Class will help create request payload for new account creation and more
+const Account = teliosSDK.Account
+// Mailbox Class provides functionality needed to process encrypted emails
+const Mailbox = teliosSDK.Mailbox
+// Crypto modules is a collection of helper functions
+const Crypto = teliosSDK.Crypto
+
+// Variables set through the constructor are available through client
+const {
+  auth,
+  provider
+  opts
+} = teliosSDK.client
+
+teliosSDK.setProvider('https://apiv1.telios.io')
+
+const auth = {
+  claims: {
+      account_key: //SB_PUB_KEY,
+      device_signing_key: //SIG_PUB_KEY,
+      device_id: //DEVICE_ID
+    },
+    device_signing_priv_key: //SIG_PRIV_KEY,
+    sig: //ACCOUNT_SERVER_SIG
+}
+
+teliosSDK.setAuthPayload(auth)
+
+```
+
+#### `const Account = teliosSDK.Account`
+
+The Account class handles communication with the Telios server and provides methods for creating request payloads.
 
 #### `const { secretBoxKeypair, signingKeypair, mnemonic } = Account.makeKeys([mnemonic])`
 
@@ -91,7 +161,7 @@ Returns:
   - `device_id`: UUID for this device
 - `sig`: Public/private signing keys for the account
 
-#### `await account.register(accountPayload)`
+#### `await Account.register(accountPayload)`
 
 Registers a new account with the API server. This method requires a verification code (`vcode`) in order for the backend to create the account. Examples on how to generate verification codes are listed below.
 
@@ -120,12 +190,11 @@ curl --location --request POST 'https://apiv1.telios.io/account/captcha/verify' 
 Account registration example usage:
 
 ```js
-const { Account, Mailbox } = require("@telios/telios-sdk");
+const ClientSDK = require("@telios/client-sdk");
+const teliosSDK = await new ClientSDK({
+    provider: 'https://apiv1.telios.io'})
+const Account = teliosSDK.Account
 const { secretBoxKeypair, signingKeypair, peerKeypair } = Account.makeKeys();
-
-const account = new Account({
-  provider: "https://apiv1.telios.io",
-});
 
 // Verification code sent to the recovery email
 const vcode = "Xf1sP4";
@@ -153,9 +222,22 @@ const registerPayload = {
   vcode: vcode,
 };
 
+// Storing the auth information for later use
+const auth = {
+  claims: {
+      account_key: initPayload.account.account_key,
+      device_signing_key: initPayload.account.device_signing_key,
+      device_id: initPayload.account.device_id
+    },
+    device_signing_priv_key: signingKeypair.privateKey,
+    sig: sig
+}
+
+teliosSDK.setAuthPayload(auth)
+
 // Send the account object that was just signed to be stored and
 // verified on the server for later authentication.
-const res = await account.register(registerPayload);
+const res = await Account.register(registerPayload);
 ```
 
 Example response:
@@ -172,26 +254,32 @@ Example response:
 
 The `sig` returned will be required for authentication and should be stored and encrypted locally. This, along with the account's signing key will be used to create a unique access token for every request.
 
-#### `const mailbox = new Mailbox(provider, auth)`
+#### `const stats = Account.retrieveStats()`
+
+This method will retrieve stats about the account.
+
+Example Response:
+```js
+  {
+    plan: "FREE", // Plan tier the account is on
+    daily_email_used: 1, // Number of email sent since last reset aka whether or not they went over the daily quota
+    daily_email_reset_date: "2021-12-21T19:00:35.000+00:00", // Datea at which the daily_email_used will reset
+    namespace_used: 1, // Number of Namespace registered by Account
+    aliases_used: 3, // Number of Aliases registered by Account
+    storage_space_used: 109635126 // Total Space used up by Account on backup server
+  }
+```
+
+#### `const Mailbox = teliosSDK.Mailbox`
 
 The Mailbox class provides functionality needed for processing encrypted emails.
-
-- `provider`: Base URL of the API provider
-- `auth`
-  - `claims`
-    - `device_signing_key`:
-    - `account_key`:
-    - `device_peer_key`:
-    - `device_id`:
-  - `device_signing_priv_key`:
-  - `sig`: Signature sent from the Telios server when this account was registered.
 
 Example Usage:
 
 ```js
-const mailbox = new Mailbox({
-  provider: "https://apiv1.telios.io",
-  auth: {
+
+// If Auth payload hasn't been previously set do the below
+const auth = {
     claims: {
       device_signing_key: signingKeypair.publicKey,
       account_key: secretBoxKeypair.publicKey,
@@ -200,15 +288,19 @@ const mailbox = new Mailbox({
     },
     device_signing_priv_key: signingKeypair.privateKey,
     sig: "[sig]",
-  },
-});
+  }
+
+teliosSDK.setAuthPayload(auth)
+
+// Once Auth Payload is set.
+const Mailbox = teliosSDK.Mailbox;
 
 const payload = {
   account_key: secretBoxKeypair.publicKey,
   addr: "test@telios.io",
 };
 
-const res = await mailbox.registerMailbox(payload);
+const res = await Mailbox.registerMailbox(payload);
 ```
 
 Example response:
@@ -219,7 +311,7 @@ Example response:
 }
 ```
 
-#### `await mailbox.getMailboxPubKeys(addresses)`
+#### `await Mailbox.getMailboxPubKeys(addresses)`
 
 A recipient's account's public key is required for sending encrypted emails within the Telios network. `getMailboxPubKeys` takes an array of recipient's addresses and returns their corresponding public key.
 
@@ -228,7 +320,7 @@ A recipient's account's public key is required for sending encrypted emails with
 Example usage:
 
 ```js
-const res = await mailbox.getMailboxPubKeys([
+const res = await Mailbox.getMailboxPubKeys([
   "alice@telios.io",
   "tester@telios.io",
 ]);
@@ -249,7 +341,7 @@ Example response:
 ];
 ```
 
-#### `await mailbox.isValidRecoveryEmail(email)`
+#### `await Mailbox.isValidRecoveryEmail(email)`
 
 Test if an email recovery address is valid and or has not already been used by another account.
 
@@ -258,10 +350,10 @@ Test if an email recovery address is valid and or has not already been used by a
 Example usage:
 
 ```js
-const res = await mailbox.isValidRecoveryEmail("alice@telios.io");
+const res = await Mailbox.isValidRecoveryEmail("alice@telios.io");
 ```
 
-#### `mailbox.send(email, { privKey, pubKey, drive, filePath })`
+#### `Mailbox.send(email, { privKey, pubKey, drive, filePath })`
 
 When sending an email to multiple recipients, the recipient's email domain is checked
 if it matches telios.io. In this case the email is encrypted, stored on the local drive, and an encrypted message
@@ -323,7 +415,7 @@ Example usage:
 
 ```js
 // In this example Bob is sending an ecrypted email to two other Telios mailboxes.
-const res = await mailbox.send(email, {
+const res = await Mailbox.send(email, {
   owner: "bob@telios.io",
   keypairs: {
     secretBoxKeypair,
@@ -336,7 +428,7 @@ const res = await mailbox.send(email, {
 });
 ```
 
-#### `await mailbox.getNewMail(acctPrivKey, acctPubKey)`
+#### `await Mailbox.getNewMail(acctPrivKey, acctPubKey)`
 
 - `acctPrivKey`: Your account's private key
 - `acctPubKey`: Your account's public key
@@ -347,7 +439,7 @@ Example usage:
 const acctPubKey = "[account_public_key]";
 const acctPrivKey = "[account_private_key]";
 
-const mail = await mailbox.getNewMail(acctPrivKey, acctPubKey);
+const mail = await Mailbox.getNewMail(acctPrivKey, acctPubKey);
 ```
 
 Example response:
@@ -396,7 +488,7 @@ Example response:
 ];
 ```
 
-#### `await mailbox.markAsSynced(ids)`
+#### `await Mailbox.markAsSynced(ids)`
 
 After an email has been pulled down onto your local devices its meta record can be safely removed from the server.
 
@@ -406,10 +498,10 @@ Example usage:
 
 ```js
 // Pass in an array of message IDs to be marked as synced.
-const res = await mailbox.markAsSynced(["5f1210b7a29fe6222f199f80"]);
+const res = await Mailbox.markAsSynced(["5f1210b7a29fe6222f199f80"]);
 ```
 
-#### `await mailbox.registerAliasName(nameObj)`
+#### `await Mailbox.registerAliasName(nameObj)`
 
 Example Alias: `alice2000`#`netflix`@telios.io
 
@@ -444,7 +536,7 @@ Example response:
 }
 ```
 
-#### `await mailbox.registerAliasAddress(addressObj)`
+#### `await Mailbox.registerAliasAddress(addressObj)`
 
 Example Alias: `alice2000`#`netflix`@telios.io
 
@@ -459,7 +551,7 @@ Registers a new alias address. Addresses can be registered manually, or they can
 Example usage:
 
 ```js    
-const res = await mailbox.registerAliasAddress({ 
+const res = await Mailbox.registerAliasAddress({ 
   alias_address: 'alice2000#netflix@telios.io',
   forwards_to: [],
   whitelisted: true 
@@ -479,7 +571,7 @@ Example response:
 }
 ```
 
-#### `await mailbox.updateAliasAddress(addressObj)`
+#### `await Mailbox.updateAliasAddress(addressObj)`
 
 Update an existing alias address.
 
@@ -490,7 +582,7 @@ Update an existing alias address.
 Example usage:
 
 ```js    
-const res = await mailbox.updateAliasAddress({ 
+const res = await Mailbox.updateAliasAddress({ 
   alias_address: 'alice2000#netflix@telios.io',
   forwards_to: ['newforward@domain.com'],
   whitelisted: true 
@@ -507,7 +599,7 @@ Example response:
 }
 ```
 
-#### `await mailbox.removeAliasAddress(address)`
+#### `await Mailbox.removeAliasAddress(address)`
 
 Removes an alias address.
 
@@ -516,7 +608,7 @@ Removes an alias address.
 Example usage:
 
 ```js    
-const res = await mailbox.removeAliasAddress('alice2000#netflix@telios.io');
+const res = await Mailbox.removeAliasAddress('alice2000#netflix@telios.io');
 ``` 
 
 

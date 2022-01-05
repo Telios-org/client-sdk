@@ -4,7 +4,7 @@ const test = _test(tape);
 const fs = require('fs');
 const path = require('path');
 const Drive = require('@telios/nebula-drive');
-const { Mailbox, Account, Crypto } = require('..');
+const ClientSDK = require('..');
 
 const testSetup = require('./helpers/setup');
 
@@ -16,10 +16,8 @@ const metaFilePath = path.join(__dirname, './data/enc_meta.tmp.json')
 
 const conf = testSetup.conf();
 
-// Mailbox test setup
-const initMailbox = async () => {
-
-  const mailbox = new Mailbox({
+const initClientSDK = async () => {
+  const clientSDK = await new ClientSDK({
     provider: 'https://apiv1.telios.io',
     auth: {
       claims: {
@@ -30,9 +28,16 @@ const initMailbox = async () => {
       device_signing_priv_key: conf.ALICE_SIG_PRIV_KEY,
       sig: conf.ALICE_ACCOUNT_SERVER_SIG
     }
-  });
+  }
+  )
+  return clientSDK
+}
 
-  return mailbox;
+
+// Mailbox test setup
+const initMailbox = async () => {
+  const clientSDK = await initClientSDK()
+  return clientSDK.Mailbox
 }
 
 test('Mailbox - Setup', async t => {
@@ -137,10 +142,9 @@ test('Mailbox - Register', async t => {
 
 test('Mailbox - Register alias name', async t => {
   t.plan(1);
-
-  const secretBoxKeypair = Crypto.boxSeedKeypair();
-
-  const mailbox = await initMailbox();
+  const clientSDK = await initClientSDK() 
+  const secretBoxKeypair = clientSDK.Crypto.boxSeedKeypair();
+  const mailbox = clientSDK.Mailbox;
   const res = await mailbox.registerAliasName({
     alias_name: 'aliceAlias',
     domain: 'telios.io',
@@ -297,9 +301,10 @@ test('Mailbox - Send mail metadata', async t => {
 test('Mailbox - Retrieve unread mail and decrypt', async t => {
   t.plan(1);
 
-  const mailbox = await initMailbox();
+  const clientSDK = await initClientSDK()
+  const mailbox = clientSDK.Mailbox;
   const mailMeta = await mailbox.getNewMail(conf.ALICE_SB_PRIV_KEY, conf.ALICE_SB_PUB_KEY);
-  const { signingKeypair } = Account.makeKeys();
+  const { signingKeypair } = clientSDK.Account.makeKeys();
 
   const keyPair = {
     publicKey: Buffer.from(signingKeypair.publicKey, 'hex'),

@@ -1,7 +1,7 @@
 const tape = require("tape");
 const _test = require("tape-promise").default;
 const test = _test(tape);
-const { Account } = require("..");
+const ClientSDK = require("..");
 const bip39 = require('bip39');
 const testSetup = require("./helpers/setup");
 
@@ -11,8 +11,11 @@ test("Test Setup", async (t) => {
 });
 
 test("Account - Make Keypairs", async (t) => {
-  const keyPair = Account.makeKeys();
-  const recovered = Account.makeKeys(keyPair.mnemonic);
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io'})
+  const Account = clientSDK.Account
+  const keyPair = Account.makeKeys()
+  const recovered = Account.makeKeys(keyPair.mnemonic)
 
   t.ok(keyPair.secretBoxKeypair.privateKey, `Secret box private key: ${keyPair.secretBoxKeypair.privateKey}`);
   t.ok(keyPair.secretBoxKeypair.publicKey, `Secret box public key: ${keyPair.secretBoxKeypair.publicKey}`);
@@ -47,6 +50,9 @@ test("Account - Init", async (t) => {
       },
     };
 
+    const clientSDK = new ClientSDK({
+      provider: 'https://apiv1.telios.io'})
+    const Account = clientSDK.Account
     const { account, sig } = await Account.init(opts, conf.ALICE_SIG_PRIV_KEY);
 
     t.ok(account, "Account object returned");
@@ -60,7 +66,9 @@ test("Account - Register", async (t) => {
   t.plan(1);
 
   const conf = testSetup.conf();
-  const account = new Account("https://apiv1.telios.io");
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io'})
+  const Account = clientSDK.Account
   const payload = {
     account: {
       account_key: conf.ALICE_SB_PUB_KEY,
@@ -74,7 +82,7 @@ test("Account - Register", async (t) => {
     vcode: "11111",
   };
 
-  const res = await account.register(payload);
+  const res = await Account.register(payload);
 
   t.ok(res, "Account can register");
 });
@@ -83,6 +91,9 @@ test("Account - Create auth token", async (t) => {
   t.plan(1);
 
   const conf = testSetup.conf();
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io'})
+  const Account = clientSDK.Account
   const claims = {
     account_key: conf.ALICE_SB_PUB_KEY,
     device_signing_key: conf.ALICE_SIG_PUB_KEY,
@@ -93,6 +104,28 @@ test("Account - Create auth token", async (t) => {
   const payload = Account.createAuthToken(claims, conf.ALICE_SIG_PRIV_KEY);
   t.ok(payload, "Account has authorization payload");
 });
+
+test("Account - Retrieved Stats", async (t) => {
+  t.plan(1)
+  const conf = testSetup.conf();
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io',
+    auth: {
+      claims: {
+        account_key: conf.ALICE_SB_PUB_KEY,
+        device_signing_key: conf.ALICE_SIG_PUB_KEY,
+        device_id: conf.ALICE_DEVICE_1_ID
+      },
+      device_signing_priv_key: conf.ALICE_SIG_PRIV_KEY,
+      sig: conf.ALICE_ACCOUNT_SERVER_SIG
+    }
+  })
+
+  const Account = clientSDK.Account
+
+  const res = await Account.retrieveStats()
+  t.ok(res, "Account can retrieve its Stats");
+})
 
 test.onFinish(async () => {
   process.exit(0);
