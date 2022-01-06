@@ -222,6 +222,10 @@ const registerPayload = {
   vcode: vcode,
 };
 
+// Send the account object that was just signed to be stored and
+// verified on the server for later authentication.
+const { _sig: serverSig } = await Account.register(registerPayload);
+
 // Storing the auth information for later use
 const auth = {
   claims: {
@@ -230,14 +234,10 @@ const auth = {
       device_id: initPayload.account.device_id
     },
     device_signing_priv_key: signingKeypair.privateKey,
-    sig: sig
+    sig: serverSig
 }
 
 teliosSDK.setAuthPayload(auth)
-
-// Send the account object that was just signed to be stored and
-// verified on the server for later authentication.
-const res = await Account.register(registerPayload);
 ```
 
 Example response:
