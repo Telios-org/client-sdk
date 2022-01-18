@@ -3,7 +3,7 @@ const _test = require('tape-promise').default;
 const test = _test(tape);
 const fs = require('fs');
 const path = require('path');
-const Drive = require('@telios/nebula-drive');
+const Drive = require('@telios/nebula');
 const ClientSDK = require('..');
 
 const testSetup = require('./helpers/setup');
