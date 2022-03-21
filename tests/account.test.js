@@ -2,7 +2,6 @@ const tape = require("tape");
 const _test = require("tape-promise").default;
 const test = _test(tape);
 const ClientSDK = require("..");
-const bip39 = require('bip39');
 const testSetup = require("./helpers/setup");
 
 test("Test Setup", async (t) => {
@@ -119,13 +118,40 @@ test("Account - Retrieved Stats", async (t) => {
       device_signing_priv_key: conf.ALICE_SIG_PRIV_KEY,
       sig: conf.ALICE_ACCOUNT_SERVER_SIG
     }
-  })
+  });
 
-  const Account = clientSDK.Account
+  const Account = clientSDK.Account;
 
-  const res = await Account.retrieveStats()
+  const res = await Account.retrieveStats();
   t.ok(res, "Account can retrieve its Stats");
 })
+
+test("Account - Recover", async (t) => {
+  t.plan(1)
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io'
+  })
+
+  const Account = clientSDK.Account;
+
+  const res = await Account.recover({ email: 'alice@telios.io', recovery_email: 'alice@telios.io' });
+
+  t.ok(res, "Account can initiate recovery");
+})
+
+test("Account - Sync", async (t) => {
+  t.plan(2)
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io'
+  })
+
+  const Account = clientSDK.Account;
+
+  const res = await Account.sync({ code: 'AbC123' });
+
+  t.ok(res.drive_key, "Account sync returned drive_key");
+  t.ok(res.drive_key, "Account sync returned peer_pub_key");
+});
 
 test.onFinish(async () => {
   process.exit(0);

@@ -254,7 +254,32 @@ Example response:
 
 The `sig` returned will be required for authentication and should be stored and encrypted locally. This, along with the account's signing key will be used to create a unique access token for every request.
 
-#### `const stats = Account.retrieveStats()`
+#### `await Account.recover({ email, recovery_email })`
+
+Initaites the account recovery flow. If email and `recovery_email` are valid and recovery code will be sent to the `recovery_email`.
+
+- `email`: User's Telios email address
+- `recovery_email`: User's recovery email used during registration.
+
+#### `const syncData = await Account.sync({ code })`
+
+Retrieves the public keys needed to sync one or more devices/drives
+
+- `code`: The recovery code sent to `recovery_email`
+
+Example response:
+
+```js
+{
+  // The drive public key needed for replication
+  drive_key: "[drive_key]";
+  // The Telios seeding peer public key. Use this key to let Telios through the drive's firewall.
+  peer_pub_key: "[peer_pub_key]"
+}
+```
+
+
+#### `const stats = await Account.retrieveStats()`
 
 This method will retrieve stats about the account.
 
