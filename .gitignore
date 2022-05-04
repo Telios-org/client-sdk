@@ -116,6 +116,7 @@ tests/data/meta/*
 tests/data/enc_meta.tmp.json
 tests/vars.tmp.json
 tests/data/encrypted_tmp.email
+tests/data/encrypted.eml
 .tmp
 .vscode
 tests/data/encrypted_stream.email

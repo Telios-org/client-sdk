@@ -17,6 +17,8 @@
   "BOB_SIG_PUB_KEY": "",
   "BOB_SIG_PRIV_KEY": "",
   "TEST_EMAIL_ENCRYPTED_META": "",
+  "IPFS_FILE_ENCRYPTION_KEY": "",
+  "IPFS_FILE_ENCRYPTION_HEADER": "",
   "TEST_EMAIL": {
     "to": [{
       "name": "Alice Tester",

@@ -2,6 +2,7 @@ const fs = require("fs");
 const path = require("path");
 const ClientSDK = require("../../index");
 const del = require("del");
+const encrypt = require('../../util/streamEncrypt');
 
 module.exports.init = async () => {
   await cleanup();
@@ -109,6 +110,15 @@ async function initVars() {
   testVars.BOB_SB_PRIV_KEY = bobKeys.secretBoxKeypair.privateKey;
   testVars.BOB_SIG_PUB_KEY = aliceKeys.signingKeypair.publicKey;
   testVars.BOB_SIG_PRIV_KEY = aliceKeys.signingKeypair.privateKey;
+
+  // Create encrypted file
+  const stream = fs.createReadStream(path.join(__dirname, '../data/email.eml'))
+  const ws = fs.createWriteStream(path.join(__dirname, '../data/encrypted.eml'))
+
+  const file = await encrypt.encryptStream(stream, ws);
+
+  testVars.IPFS_FILE_ENCRYPTION_KEY = file.key.toString('hex');
+  testVars.IPFS_FILE_ENCRYPTION_HEADER = file.header.toString('hex');
 
   fs.writeFileSync(tmpFilePath, JSON.stringify(testVars));
   return testVars;
