@@ -62,12 +62,14 @@ test('IPFS - Get file', async t => {
 });
 
 test('IPFS - Get file upload progress', async t => {
-  t.plan(1);
+  t.plan(3);
 
   const ipfs = await initIPFS();
   const res = await ipfs.status('ca91cdbd-f640-49b6-fed2-cdf9bd987037');
 
-  t.equals(res.progress, 0.15, 'File progress is at 15%')
+  t.ok(res.uuid);
+  t.equals(res.uploaded, 1337);
+  t.equals(res.done, false);
 });
 
 test('IPFS - Delete file', async t => {
