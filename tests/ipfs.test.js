@@ -31,15 +31,16 @@ const initIPFS = async () => {
 }
 
 test('IPFS - Add file', async t => {
-  t.plan(3);
+  t.plan(4);
 
   const ipfs = await initIPFS();
-  const stream = fs.createReadStream(path.join(__dirname, '/data/encrypted.eml'))
-  const response = await ipfs.add(stream);
+  const stream = fs.createReadStream(path.join(__dirname, '/data/email.eml'))
+  const response = await ipfs.add(stream, { encrypt: true });
 
   t.ok(response.uuid);
-  t.ok(response.cid);
-  t.ok(response.query_id);
+  t.ok(response.key);
+  t.ok(response.header);
+  t.ok(response.size);
 });
 
 test('IPFS - Get file', async t => {
