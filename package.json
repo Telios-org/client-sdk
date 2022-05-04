@@ -1,10 +1,10 @@
 {
   "name": "@telios/client-sdk",
-  "version": "5.1.2",
+  "version": "5.2.0",
   "description": "SDK for the Telios platform",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test_sdk tape tests/setup.test.js | cross-env NODE_ENV=test_sdk tape tests/clientSDK.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/account.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/mailbox.test.js | tap-spec",
+    "test": "cross-env NODE_ENV=test_sdk tape tests/setup.test.js | cross-env NODE_ENV=test_sdk tape tests/clientSDK.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/account.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/ipfs.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/mailbox.test.js | tap-spec",
     "debug": "cross-env NODE_ENV=test_sdk tape tests/drive.test.js | tap-spec --nolazy --debug-brk=5858"
   },
   "repository": {
@@ -32,6 +32,7 @@
     "memorystream": "^0.3.1",
     "moment": "^2.27.0",
     "multifeed": "^6.0.0",
+    "node-fetch": "^2.6.1",
     "pump": "^3.0.0",
     "random-access-memory": "^3.1.1",
     "rimraf": "^3.0.2",
