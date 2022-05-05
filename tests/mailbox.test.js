@@ -56,28 +56,26 @@ test('Mailbox - Setup', async t => {
 });
 
 test('Mailbox - Send mail', async t => {
-  t.plan(1);
-
   const mailbox = await initMailbox();
   const email = conf.TEST_EMAIL;
 
-  const res = await mailbox.send(email, {
-    owner: conf.ALICE_MAILBOX,
-    keypairs: {
-      secretBoxKeypair: {
-        privateKey: conf.BOB_SB_PRIV_KEY,
-        publicKey: conf.BOB_SB_PUB_KEY
-      },
-      signingKeypair: {
-        privateKey: conf.BOB_SIG_PRIV_KEY,
-        publicKey: conf.BOB_SIG_PUB_KEY
+  try {
+    await mailbox.send(email, {
+      owner: conf.ALICE_MAILBOX,
+      keypairs: {
+        secretBoxKeypair: {
+          privateKey: conf.BOB_SB_PRIV_KEY,
+          publicKey: conf.BOB_SB_PUB_KEY
+        },
+        signingKeypair: {
+          privateKey: conf.BOB_SIG_PRIV_KEY,
+          publicKey: conf.BOB_SIG_PUB_KEY
+        }
       }
-    },
-    drive: localDrive,
-    dest: '/test-email.json'
-  });
-
-  t.ok(res, `Sent mail to Telios recipient`);
+    });
+  } catch(err) {
+    t.fail(err)
+  }
 });
 
 test('Mailbox - Encrypt mail metadata', async t => {

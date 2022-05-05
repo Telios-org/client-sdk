@@ -395,8 +395,6 @@ be encrypted at rest when picked up by the mailserver for Telios recipients.
 - `keypairs`: signing and secret box keypairs
   - `secretBoxKeypair`: The sender's signing keypair (Bob). Private key is only used during encryption and never sent or stored.
   - `signingKeypair`: The sender's signing keypair object (Bob). Public key is used for authenticity of sender
-- `drive`: A shared drive
-- `dest`: File destination path on the local drive
 
 Email JSON should be in the following format:
 
@@ -404,6 +402,10 @@ Email JSON should be in the following format:
 const email = {
   "subject": "Hello Bob",
   "date": "2020-07-14T13:49:36.000Z",
+  "cid": "bafkreif7unfcuq3zw6fl4pmxh67niukus4ozw3lvqmycmsd52wmor4n6kl", // IPFS cid
+  "key": "6f6331eaf1bdf150f37312dfb560792f4acd18ed4bcf989e4afab1d290cbe3f1",
+  "header": "27b9b910f9658d489be208cde88819de9512c8b9f3954baf",
+  "path": "677bfc57-3ee9-4d53-84dc-1010bff8f4d6.json",
   "to": [
     {
       "address": "bob@mail.com",

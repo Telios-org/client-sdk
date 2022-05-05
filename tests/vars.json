@@ -20,6 +20,10 @@
   "IPFS_FILE_ENCRYPTION_KEY": "",
   "IPFS_FILE_ENCRYPTION_HEADER": "",
   "TEST_EMAIL": {
+    "cid": "bafkreif7unfcuq3zw6fl4pmxh67niukus4ozw3lvqmycmsd52wmor4n6kl",
+    "key": "0000000000000000000000000000000000000000000000000000000000000000",
+    "header": "0000000000000000000000000000000000000000000000000000000000000000",
+    "path": "677bfc57-3ee9-4d53-84dc-1010bff8f4d6.json",
     "to": [{
       "name": "Alice Tester",
       "address": "alice@telios.io"
@@ -27,6 +31,10 @@
     "from": [{
       "name": "Bob Tester",
       "address": "bob@telios.io"
+    }],
+    "cc": [{
+      "name": "Tester",
+      "address": "tester@telios.io"
     }],
     "subject": "Hello Alice",
     "text_body": "You're my favorite test person ever",
