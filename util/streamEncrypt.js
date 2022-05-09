@@ -5,6 +5,8 @@ const MAX_PLAINTEXT_BLOCK_SIZE = 65536;
 const MAX_ENCRYPTED_BLOCK_SIZE = 65553;
 
 module.exports.decryptStream = async (stream, key, header) => {
+  key = Buffer.from(key, 'hex');
+  header = Buffer.from(header, 'hex');
   const fixedChunker = new FixedChunker(stream, MAX_ENCRYPTED_BLOCK_SIZE);
   return Crypto.decryptStream(fixedChunker, key, header);
 }
