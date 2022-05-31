@@ -264,9 +264,9 @@ Initaites the account recovery flow. If email and `recovery_email` are valid and
 
 Generates a new sync code on the server that expires in 10 minutes. This code should be given to the other peer device for pairing.
 
-#### `const { drive_key, peer_pub_key } = await Account.getSyncInfo({ code })`
+#### `const { drive_key, peer_pub_key, email } = await Account.getSyncInfo({ code })`
 
-Retrieves the public keys needed to sync one or more devices/drives
+Retrieves the public keys and info needed to sync one or more devices/drives
 
 - `code`: The recovery code sent to `recovery_email`
 

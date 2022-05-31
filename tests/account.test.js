@@ -163,15 +163,16 @@ test("Account - Create sync code", async (t) => {
 });
 
 test("Account - Get sync info", async (t) => {
-  t.plan(2);
+  t.plan(3);
   const clientSDK = new ClientSDK({
     provider: 'https://apiv1.telios.io'
   });
 
   const Account = clientSDK.Account;
 
-  const { drive_key, peer_pub_key } = await Account.getSyncInfo({ code: 'AbC123' });
+  const { drive_key, peer_pub_key, email } = await Account.getSyncInfo({ code: 'AbC123' });
 
+  t.ok(email, "Account sync returned account email address");
   t.ok(drive_key, "Account sync returned drive_key");
   t.ok(peer_pub_key, "Account sync returned peer_pub_key");
 });
