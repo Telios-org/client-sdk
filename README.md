@@ -204,7 +204,6 @@ const initPayload = {
     account_key: secretBoxKeypair.publicKey,
     recovery_email: recoveryEmail,
     device_drive_key: driveKey,
-    device_drive_diff_key: driveDiffKey,
     device_signing_key: signingKeypair.publicKey,
     device_peer_key: peerKeypair.publicKey,
     device_id: deviceId,
@@ -261,7 +260,11 @@ Initaites the account recovery flow. If email and `recovery_email` are valid and
 - `email`: User's Telios email address
 - `recovery_email`: User's recovery email used during registration.
 
-#### `const syncData = await Account.sync({ code })`
+#### `const { code } = await Account.createSyncCode()`
+
+Generates a new sync code on the server that expires in 10 minutes. This code should be given to the other peer device for pairing.
+
+#### `const { drive_key, peer_pub_key } = await Account.getSyncInfo({ code })`
 
 Retrieves the public keys needed to sync one or more devices/drives
 
@@ -278,6 +281,16 @@ Example response:
 }
 ```
 
+#### `const { sig } = await Account.registerNewDevice(payload)`
+
+Registers a new device with the provider. Returns a server signature that should be used for generating new sessions with the API server.
+
+- `payload`
+  - `type`: The device type - `"MOBILE" | "DESKTOP"`
+  - `device_id`: UUID for this device
+  - `device_drive_key`: Public key of the drive created for the device - `drive.publicKey`
+  - `device_signing_key`: Public signing key for your device
+  
 
 #### `const stats = await Account.retrieveStats()`
 

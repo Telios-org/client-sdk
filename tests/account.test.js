@@ -139,18 +139,69 @@ test("Account - Recover", async (t) => {
   t.ok(res, "Account can initiate recovery");
 })
 
-test("Account - Sync", async (t) => {
-  t.plan(2)
+test("Account - Create sync code", async (t) => {
+  t.plan(1);
+  const conf = testSetup.conf();
   const clientSDK = new ClientSDK({
-    provider: 'https://apiv1.telios.io'
-  })
+    provider: 'https://apiv1.telios.io',
+    auth: {
+      claims: {
+        account_key: conf.ALICE_SB_PUB_KEY,
+        device_signing_key: conf.ALICE_SIG_PUB_KEY,
+        device_id: conf.ALICE_DEVICE_1_ID
+      },
+      device_signing_priv_key: conf.ALICE_SIG_PRIV_KEY,
+      sig: conf.ALICE_ACCOUNT_SERVER_SIG
+    }
+  });
 
   const Account = clientSDK.Account;
 
-  const res = await Account.sync({ code: 'AbC123' });
+  const { code } = await Account.createSyncCode();
 
-  t.ok(res.drive_key, "Account sync returned drive_key");
-  t.ok(res.drive_key, "Account sync returned peer_pub_key");
+  t.equals(code, "AbC123", "Account generated a new code for device syncing.");
+});
+
+test("Account - Get sync info", async (t) => {
+  t.plan(2);
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io'
+  });
+
+  const Account = clientSDK.Account;
+
+  const { drive_key, peer_pub_key } = await Account.getSyncInfo({ code: 'AbC123' });
+
+  t.ok(drive_key, "Account sync returned drive_key");
+  t.ok(peer_pub_key, "Account sync returned peer_pub_key");
+});
+
+test("Account - Register new device", async (t) => {
+  t.plan(1);
+  const conf = testSetup.conf();
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io',
+    auth: {
+      claims: {
+        account_key: conf.ALICE_SB_PUB_KEY,
+        device_signing_key: conf.ALICE_SIG_PUB_KEY,
+        device_id: conf.ALICE_DEVICE_1_ID
+      },
+      device_signing_priv_key: conf.ALICE_SIG_PRIV_KEY,
+      sig: conf.ALICE_ACCOUNT_SERVER_SIG
+    }
+  });
+
+  const Account = clientSDK.Account;
+
+  const { sig } = await Account.registerNewDevice({
+    type: "DESKTOP",
+    device_id: '00000000-0000-9999-000000000000',
+    device_drive_key: '0000000000000000000000000000000000000000000000000000000000000002',
+    device_signing_key: '0000000000000000000000000000000000000000000000000000000000000001'
+  });
+
+  t.ok(sig, "Account has added a new device and generated a new server signature");
 });
 
 test.onFinish(async () => {
