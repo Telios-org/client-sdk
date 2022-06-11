@@ -1,6 +1,6 @@
 {
   "name": "@telios/client-sdk",
-  "version": "6.1.1",
+  "version": "6.1.2",
   "description": "SDK for the Telios platform",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Telios-org/client-sdk",
   "dependencies": {
-    "@telios/nebula": "^2.5.6",
+    "@telios/nebula": "^3.0.0",
     "async": "^3.2.0",
     "axios": "^0.21.1",
     "bip39": "^3.0.4",
