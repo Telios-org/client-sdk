@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Telios-org/client-sdk",
   "dependencies": {
-    "@telios/nebula": "^3.0.0",
+    "@telios/nebula": "^3.0.1",
     "async": "^3.2.0",
     "axios": "^0.21.1",
     "bip39": "^3.0.4",
