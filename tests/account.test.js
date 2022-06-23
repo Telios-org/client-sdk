@@ -198,7 +198,7 @@ test("Account - Register account signing public key", async (t) => {
 
   const keyPair = Account.makeKeys()
 
-  const res = await Account.registerSigningKey(keyPair.signingKeypair.publicKey)
+  const res = await Account.registerSigningKey({ signing_key: keyPair.signingKeypair.publicKey })
 
   t.ok(res, 'Account can register signing public key')
 });
