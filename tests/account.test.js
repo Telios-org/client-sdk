@@ -3,6 +3,7 @@ const _test = require("tape-promise").default;
 const test = _test(tape);
 const ClientSDK = require("..");
 const testSetup = require("./helpers/setup");
+const Crypto = require('../lib/crypto');
 
 test("Test Setup", async (t) => {
   await testSetup.init();
@@ -177,7 +178,7 @@ test("Account - Get sync info", async (t) => {
   t.ok(peer_pub_key, "Account sync returned peer_pub_key");
 });
 
-test("Account - Register new device", async (t) => {
+test("Account - Register account signing public key", async (t) => {
   t.plan(1);
   const conf = testSetup.conf();
   const clientSDK = new ClientSDK({
@@ -195,12 +196,32 @@ test("Account - Register new device", async (t) => {
 
   const Account = clientSDK.Account;
 
-  const { sig } = await Account.registerNewDevice({
-    type: "DESKTOP",
-    device_id: '00000000-0000-9999-000000000000',
-    device_drive_key: '0000000000000000000000000000000000000000000000000000000000000002',
-    device_signing_key: '0000000000000000000000000000000000000000000000000000000000000001'
-  });
+  const keyPair = Account.makeKeys()
+
+  const res = await Account.registerSigningKey(keyPair.signingKeypair.publicKey)
+
+  t.ok(res, 'Account can register signing public key')
+});
+
+test("Account - Register new device", async (t) => {
+  t.plan(1);
+  const conf = testSetup.conf();
+  const clientSDK = new ClientSDK({
+    provider: 'https://apiv1.telios.io'
+  })
+
+  const Account = clientSDK.Account;
+
+  const payload = {
+    device: {
+      type: "DESKTOP", // "DESKTOP" || "MOBILE"
+      account_key: '0000000000000000000000000000000000000000000000000000000000000009',
+      device_id: '00000000-0000-1111-000000000000',
+      device_signing_key: '0000000000000000000000000000000000000000000000000000000000000001'
+    }
+  }
+
+  const { sig } = await Account.registerNewDevice(payload, conf.ALICE_SIG_PRIV_KEY);
 
   t.ok(sig, "Account has added a new device and generated a new server signature");
 });
