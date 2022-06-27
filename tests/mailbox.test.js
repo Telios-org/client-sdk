@@ -312,6 +312,8 @@ test('Mailbox - Retrieve unread mail and decrypt', async t => {
   const files = [];
   const drive2 = new Drive(__dirname + '/drive2', null, {
     keyPair,
+    fileTimeout: 10000,
+    fileRetryAttempts: 3,
     swarmOpts: {
       server: true,
       client: true
