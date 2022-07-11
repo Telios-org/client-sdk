@@ -213,12 +213,10 @@ test("Account - Register new device", async (t) => {
   const Account = clientSDK.Account;
 
   const payload = {
-    device: {
-      type: "DESKTOP", // "DESKTOP" || "MOBILE"
-      account_key: '0000000000000000000000000000000000000000000000000000000000000009',
-      device_id: '00000000-0000-1111-000000000000',
-      device_signing_key: '0000000000000000000000000000000000000000000000000000000000000001'
-    }
+    type: "DESKTOP", // "DESKTOP" || "MOBILE"
+    account_key: '0000000000000000000000000000000000000000000000000000000000000009',
+    device_id: '00000000-0000-1111-000000000000',
+    device_signing_key: '0000000000000000000000000000000000000000000000000000000000000001'
   }
 
   const { sig } = await Account.registerNewDevice(payload, conf.ALICE_SIG_PRIV_KEY);
