@@ -3,12 +3,14 @@ const Crypto = require('./lib/crypto');
 const Mailbox = require('./lib/mailbox');
 const IPFS = require('./lib/ipfs');
 const Client = require('./lib/client');
+const Domain = require('./lib/domain')
 
 class ClientSDK {
   constructor(opts = {}) {
     this.client = new Client(opts)
     this.Account = new Account(this.client)
     this.Mailbox = new Mailbox(this.client)
+    this.Domain = new Mailbox(this.client)
     this.IPFS = new IPFS(this.client)
     this.Crypto = Crypto
   }
