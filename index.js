@@ -10,7 +10,7 @@ class ClientSDK {
     this.client = new Client(opts)
     this.Account = new Account(this.client)
     this.Mailbox = new Mailbox(this.client)
-    this.Domain = new Mailbox(this.client)
+    this.Domain = new Domain(this.client)
     this.IPFS = new IPFS(this.client)
     this.Crypto = Crypto
   }
