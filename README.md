@@ -651,4 +651,218 @@ Example usage:
 const res = await Mailbox.removeAliasAddress('alice2000#netflix@telios.io');
 ``` 
 
+#### `const Domain = teliosSDK.Domain`
+
+The Domain class provides functionality needed for registering custom domains and mailboxes.
+
+Example Usage:
+
+```js
+
+// If Auth payload hasn't been previously set do the below
+const auth = {
+    claims: {
+      device_signing_key: signingKeypair.publicKey,
+      account_key: secretBoxKeypair.publicKey,
+      device_peer_key: peerKeypair.publicKey,
+      device_id: "[device_id]",
+    },
+    device_signing_priv_key: signingKeypair.privateKey,
+    sig: "[sig]",
+  }
+
+teliosSDK.setAuthPayload(auth)
+
+// Once Auth Payload is set.
+const Domain = teliosSDK.Domain;
+
+const payload = {
+  account_key: secretBoxKeypair.publicKey,
+  addr: "test@telios.io",
+};
+
+const bool = await Domain.isAvailable('telios.app');
+```
+
+#### `await Domain.isAvailable(domain)`
+
+Check if custom a domain is available and has not been previously registered.
+
+- `domain`: String of the domain `telios.app`
+
+Example usage:
+
+```js    
+const bool = await Domain.isAvailable('telios.app');
+```
+
+#### `await Domain.register(payload)`
+
+Register a new custom domain.
+
+- `domain`: String of the domain `telios.app`
+
+Example usage:
+
+```js
+const payload = {
+  domain:'telios.app'
+};
+
+const res = await Domain.register('telios.app');
+```
+
+Example response:
+
+```js
+{
+    "domain": "telios.app",
+    "verification": "f63cecf4b9e5b2eb245f1e2247dd37fc"
+}
+```
+
+#### `await Domain.verifyOwnership(domain)`
+
+Verify user owns the domain.
+
+- `domain`: String of the domain `telios.app`
+
+Example usage:
+
+```js
+const { verified } = await Domain.verifyOwnership('telios.app');
+```
+
+#### `await Domain.verifyDNS(payload)`
+
+Verify DNS records are correctly set.
+
+- `domain`: String of the domain `telios.app`
+
+Example usage:
+
+```js
+const payload = {
+  domain:'telios.app'
+};
+
+const res = await Domain.verifyDNS('telios.app');
+```
+
+Example response:
+
+```js
+{
+  "records":[
+    {
+      "type": "MX",
+      "name": "telios.app",
+      "value": "mailer.telios.app",
+      "verified": true
+    },
+    {
+      "type": "TXT",
+      "name": "telios.app",
+      "value": "v=spf1 include:mailer.telios.app ~all",
+      "verified": true
+    },
+    {
+      "type": "TXT",
+      "name": "dkim._domainkey.telios.app",
+      "value": "",
+      "verified": true
+    },
+    {
+      "type": "TXT",
+      "name": "_dmarc.telios.app",
+      "value": "v=DMARC1;p=quarantine",
+      "verified": true
+    }
+  ]
+}
+```
+
+#### `await Domain.registerMailbox(payload)`
+
+Register a mailbox under a custom domain.
+
+- `address`: String of the mailbox address `bob`
+- `domain`: String of the domain `telios.app`
+- `key`: String of the mailbox public key
+- `forwards_to`: Array of string email addresses to forward mail to
+
+Example usage:
+
+```js
+const payload = {
+  address:'bob',
+  domain: 'telios.app',
+  key: '0000000000000000000000000000000000000000000000000000000000000000',
+  forwards_to: []
+};
+
+const res = await Domain.registerMailbox(payload);
+```
+
+Example response:
+
+```js
+{
+    "_xid": "255",
+    "key": "0000000000000000000000000000000000000000000000000000000000000000",
+    "address": "bob@telios.app",
+    "forwards_to": [
+        "alice@telios.io"
+    ],
+    "disabled": false
+}
+```
+
+#### `await Domain.update(payload)`
+
+Update a custom domain mailbox.
+
+- `address`: String of the mailbox address `bob`
+- `forwards_to`: Array of string email addresses to forward mail to
+- `disabled`: Boolean that determines if the mailbox is disabled and should receive mail
+
+Example usage:
+
+```js
+const payload = {
+  address:'bob@telios.app',
+  forwards_to: ["charlie@mail.io"],
+  disabled: false
+};
+
+const res = await Domain.registerMailbox(payload);
+```
+
+Example response:
+
+```js
+{
+    "address": "bob@telios.app",
+    "forwards_to": [
+        "charlie@mail.io"
+    ],
+    "disabled": false
+}
+```
+
+#### `await Domain.deleteMailbox(payload)`
+
+Delete a mailbox under a custom domain.
+
+- `address`: String of the mailbox address `bob@telios.app`
+
+Example usage:
+
+```js
+const payload = {
+  address:'bob@telios.app'
+};
+
+await Domain.deleteMailbox(payload);
+```
 
