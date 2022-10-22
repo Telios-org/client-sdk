@@ -115,24 +115,22 @@ test('Domains - verify DNS', async t => {
 });
 
 test('Domains - register mailbox', async t => {
-  t.plan(4);
+  t.plan(3);
 
   const domain = await initDomains();
 
   const payload = {
-    address:'bob',
+    name: 'Bob Tester',
+    addr:'bob@telios.app',
     domain: 'telios.app',
-    key: '0000000000000000000000000000000000000000000000000000000000000000',
-    forwards_to: [],
-    disabled: false
+    mailbox_key: '0000000000000000000000000000000000000000000000000000000000000000'
   };
 
   try {
     const res = await domain.registerMailbox(payload);
 
     t.ok(res._xid);
-    t.ok(res.key);
-    t.ok(res.forwards_to);
+    t.ok(res.mailbox_key);
     t.equals(res.disabled, false);
   } catch(err) {
     t.fail(err);

@@ -786,19 +786,17 @@ Example response:
 
 Register a mailbox under a custom domain.
 
-- `address`: String of the mailbox address `bob`
-- `domain`: String of the domain `telios.app`
-- `key`: String of the mailbox public key
-- `forwards_to`: Array of string email addresses to forward mail to
+- `name`: String of the mailbox display name `Bob Test`
+- `addr`: String of the full mailbox address with custom domain `bob@telios.app`
+- `mailbox_key`: String of the mailbox public key
 
 Example usage:
 
 ```js
 const payload = {
-  address:'bob',
-  domain: 'telios.app',
-  key: '0000000000000000000000000000000000000000000000000000000000000000',
-  forwards_to: []
+  name: 'Bob Tester',
+  addr:'bob@telios.app',
+  mailbox_key: '0000000000000000000000000000000000000000000000000000000000000000'
 };
 
 const res = await Domain.registerMailbox(payload);
@@ -809,11 +807,8 @@ Example response:
 ```js
 {
     "_xid": "255",
-    "key": "0000000000000000000000000000000000000000000000000000000000000000",
+    "mailbox_key": "0000000000000000000000000000000000000000000000000000000000000000",
     "address": "bob@telios.app",
-    "forwards_to": [
-        "alice@telios.io"
-    ],
     "disabled": false
 }
 ```
@@ -823,7 +818,6 @@ Example response:
 Update a custom domain mailbox.
 
 - `address`: String of the mailbox address `bob`
-- `forwards_to`: Array of string email addresses to forward mail to
 - `disabled`: Boolean that determines if the mailbox is disabled and should receive mail
 
 Example usage:
@@ -831,11 +825,10 @@ Example usage:
 ```js
 const payload = {
   address:'bob@telios.app',
-  forwards_to: ["charlie@mail.io"],
-  disabled: false
+  disabled: true
 };
 
-const res = await Domain.registerMailbox(payload);
+const res = await Domain.update(payload);
 ```
 
 Example response:
@@ -843,10 +836,7 @@ Example response:
 ```js
 {
     "address": "bob@telios.app",
-    "forwards_to": [
-        "charlie@mail.io"
-    ],
-    "disabled": false
+    "disabled": true
 }
 ```
 
