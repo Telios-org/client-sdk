@@ -122,7 +122,6 @@ test('Domains - register mailbox', async t => {
   const payload = {
     name: 'Bob Tester',
     addr:'bob@telios.app',
-    domain: 'telios.app',
     mailbox_key: '0000000000000000000000000000000000000000000000000000000000000000'
   };
 
