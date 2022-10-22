@@ -817,14 +817,14 @@ Example response:
 
 Update a custom domain mailbox.
 
-- `address`: String of the mailbox address `bob`
+- `addr`: String of the mailbox address `bob`
 - `disabled`: Boolean that determines if the mailbox is disabled and should receive mail
 
 Example usage:
 
 ```js
 const payload = {
-  address:'bob@telios.app',
+  addr:'bob@telios.app',
   disabled: true
 };
 
@@ -844,13 +844,13 @@ Example response:
 
 Delete a mailbox under a custom domain.
 
-- `address`: String of the mailbox address `bob@telios.app`
+- `addr`: String of the mailbox address `bob@telios.app`
 
 Example usage:
 
 ```js
 const payload = {
-  address:'bob@telios.app'
+  addr:'bob@telios.app'
 };
 
 await Domain.deleteMailbox(payload);

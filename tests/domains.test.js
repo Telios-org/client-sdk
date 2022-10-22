@@ -137,22 +137,20 @@ test('Domains - register mailbox', async t => {
 });
 
 test('Domains - update mailbox', async t => {
-  t.plan(3);
+  t.plan(2);
 
   const domain = await initDomains();
 
   const payload = {
-    address:'bob@telios.app',
-    forwards_to: ["charlie@mail.io"],
-    disabled: false
+    addr:'bob@telios.app',
+    disabled: true
   };
 
   try {
     const res = await domain.updateMailbox(payload);
 
     t.ok(res.address);
-    t.ok(res.forwards_to);
-    t.equals(res.disabled, false);
+    t.equals(res.disabled, true);
   } catch(err) {
     t.fail(err);
   }
@@ -164,7 +162,7 @@ test('Domains - delete mailbox', async t => {
   const domain = await initDomains();
 
   const payload = {
-    address:'bob@telios.app'
+    addr:'bob@telios.app'
   };
 
   try {
