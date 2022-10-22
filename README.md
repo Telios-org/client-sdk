@@ -799,18 +799,7 @@ const payload = {
   mailbox_key: '0000000000000000000000000000000000000000000000000000000000000000'
 };
 
-const res = await Domain.registerMailbox(payload);
-```
-
-Example response:
-
-```js
-{
-    "_xid": "255",
-    "mailbox_key": "0000000000000000000000000000000000000000000000000000000000000000",
-    "address": "bob@telios.app",
-    "disabled": false
-}
+await Domain.registerMailbox(payload);
 ```
 
 #### `await Domain.update(payload)`

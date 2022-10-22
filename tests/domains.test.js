@@ -115,7 +115,7 @@ test('Domains - verify DNS', async t => {
 });
 
 test('Domains - register mailbox', async t => {
-  t.plan(3);
+  t.plan(1);
 
   const domain = await initDomains();
 
@@ -128,9 +128,7 @@ test('Domains - register mailbox', async t => {
   try {
     const res = await domain.registerMailbox(payload);
 
-    t.ok(res._xid);
-    t.ok(res.mailbox_key);
-    t.equals(res.disabled, false);
+    t.ok(res.registered);
   } catch(err) {
     t.fail(err);
   }
@@ -167,7 +165,7 @@ test('Domains - delete mailbox', async t => {
 
   try {
     const res = await domain.deleteMailbox(payload);
-    t.ok(res);
+    t.ok(res.removed);
   } catch(err) {
     t.fail(err);
   }
