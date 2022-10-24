@@ -716,8 +716,12 @@ Example response:
 
 ```js
 {
-    "domain": "telios.app",
-    "verification": "f63cecf4b9e5b2eb245f1e2247dd37fc"
+  "domain": "telios.app",
+  "verification": {
+    "name": "@",
+    "type": "TXT",
+    "value": "telios-verification=d48808347d7d8a0b91f2e3af9d77ce33"
+  }
 }
 ```
 

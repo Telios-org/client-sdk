@@ -50,7 +50,7 @@ test('Domains - Register new domain', async t => {
   const res = await domain.register(payload);
 
   t.equals(res.domain, 'telios.app');
-  t.ok(res.verification);
+  t.ok(res.verification.value);
 });
 
 test('Domains - delete domain', async t => {
