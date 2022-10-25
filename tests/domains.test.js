@@ -89,7 +89,7 @@ test('Domains - verify DNS', async t => {
   const domain = await initDomains();
 
   try {
-    const {records} = await domain.verifyDNS('telios.app');
+    const records = await domain.verifyDNS('telios.app');
     
     for(const record of records) {
       if(record.type === 'MX' && record.verified) {

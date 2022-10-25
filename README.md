@@ -756,34 +756,33 @@ const res = await Domain.verifyDNS('telios.app');
 Example response:
 
 ```js
-{
-  "records":[
-    {
-      "type": "MX",
-      "name": "telios.app",
-      "value": "mailer.telios.app",
-      "verified": true
-    },
-    {
-      "type": "TXT",
-      "name": "telios.app",
-      "value": "v=spf1 include:mailer.telios.app ~all",
-      "verified": true
-    },
-    {
-      "type": "TXT",
-      "name": "dkim._domainkey.telios.app",
-      "value": "",
-      "verified": true
-    },
-    {
-      "type": "TXT",
-      "name": "_dmarc.telios.app",
-      "value": "v=DMARC1;p=quarantine",
-      "verified": true
-    }
-  ]
-}
+[
+  {
+    "type": "MX",
+    "name": "telios.app",
+    "value": "mailer.telios.app",
+    "verified": true
+  },
+  {
+    "type": "TXT",
+    "name": "telios.app",
+    "value": "v=spf1 include:mailer.telios.app ~all",
+    "verified": true
+  },
+  {
+    "type": "TXT",
+    "name": "dkim._domainkey.telios.app",
+    "value": "",
+    "verified": true
+  },
+  {
+    "type": "TXT",
+    "name": "_dmarc.telios.app",
+    "value": "v=DMARC1;p=quarantine",
+    "verified": true
+  }
+]
+
 ```
 
 #### `await Domain.registerMailbox(payload)`
