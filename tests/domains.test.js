@@ -89,23 +89,23 @@ test('Domains - verify DNS', async t => {
   const domain = await initDomains();
 
   try {
-    const records = await domain.verifyDNS('telios.app');
+    let records = await domain.verifyDNS('telios.app');
     
-    for(const record of records) {
-      if(record.type === 'MX' && record.verified) {
-        t.ok(record.value, 'MX Record verified');
+    for(const key in records) {
+      if(records[key].type === 'MX' && records[key].verified) {
+        t.ok(records[key].value, 'MX Record verified');
       }
 
-      if(record.type === 'TXT' && record.value.indexOf('spf') > -1 && record.verified) {
-        t.ok(record.value, 'SPF Record verified');
+      if(records[key].type === 'TXT' && records[key].value.indexOf('spf') > -1 && records[key].verified) {
+        t.ok(records[key].value, 'SPF Record verified');
       }
 
-      if(record.type === 'TXT' && record.name.indexOf('dkim') > -1 && record.verified) {
-        t.ok(record.name, 'DKIM Record verified');
+      if(records[key].type === 'TXT' && records[key].name.indexOf('dkim') > -1 && records[key].verified) {
+        t.ok(records[key].name, 'DKIM Record verified');
       }
 
-      if(record.type === 'TXT' && record.name.indexOf('_dmarc') > -1 && record.verified) {
-        t.ok(record.name, 'DMARC Record verified');
+      if(records[key].type === 'TXT' && records[key].name.indexOf('_dmarc') > -1 && records[key].verified) {
+        t.ok(records[key].name, 'DMARC Record verified');
       }
     }
 
