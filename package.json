@@ -1,6 +1,6 @@
 {
   "name": "@telios/client-sdk",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "SDK for the Telios platform",
   "main": "index.js",
   "scripts": {
@@ -18,10 +18,9 @@
   },
   "homepage": "https://github.com/Telios-org/client-sdk",
   "dependencies": {
-    "@telios/nebula": "^4.0.0",
+    "@telios/nebula": "^4.0.1",
     "async": "^3.2.0",
     "axios": "^0.21.1",
-    "bip39": "^3.0.4",
     "blakejs": "^1.1.0",
     "chokidar": "^3.5.1",
     "dat-encoding": "^5.0.1",
@@ -33,7 +32,6 @@
     "multifeed": "^6.0.0",
     "node-fetch": "^2.6.1",
     "pump": "^3.0.0",
-    "random-access-memory": "^3.1.1",
     "rimraf": "^3.0.2",
     "uuid": "^8.2.0"
   },

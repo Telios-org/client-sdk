@@ -3,7 +3,6 @@ const _test = require("tape-promise").default;
 const test = _test(tape);
 const ClientSDK = require("..");
 const testSetup = require("./helpers/setup");
-const Crypto = require('../lib/crypto');
 
 test("Test Setup", async (t) => {
   await testSetup.init();

@@ -1,5 +1,4 @@
 const Account = require('./lib/account');
-const Crypto = require('./lib/crypto');
 const Mailbox = require('./lib/mailbox');
 const IPFS = require('./lib/ipfs');
 const Client = require('./lib/client');
@@ -12,7 +11,6 @@ class ClientSDK {
     this.Mailbox = new Mailbox(this.client)
     this.Domain = new Domain(this.client)
     this.IPFS = new IPFS(this.client)
-    this.Crypto = Crypto
   }
 
   setAuthPayload(auth) {

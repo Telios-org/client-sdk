@@ -4,6 +4,7 @@ const test = _test(tape);
 const fs = require('fs');
 const path = require('path');
 const Drive = require('@telios/nebula');
+const Crypto = require('@telios/nebula/lib/crypto');
 const ClientSDK = require('..');
 
 const testSetup = require('./helpers/setup');
@@ -141,7 +142,7 @@ test('Mailbox - Register', async t => {
 test('Mailbox - Register alias name', async t => {
   t.plan(1);
   const clientSDK = await initClientSDK() 
-  const secretBoxKeypair = clientSDK.Crypto.boxSeedKeypair();
+  const secretBoxKeypair = Crypto.boxSeedKeypair();
   const mailbox = clientSDK.Mailbox;
   const res = await mailbox.registerAliasName({
     alias_name: 'aliceAlias',
