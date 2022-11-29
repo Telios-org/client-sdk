@@ -1,10 +1,10 @@
 {
   "name": "@telios/client-sdk",
-  "version": "7.0.2",
+  "version": "7.0.3",
   "description": "SDK for the Telios platform",
   "main": "index.js",
   "scripts": {
-    "test": "cross-env NODE_ENV=test_sdk tape tests/setup.test.js | cross-env NODE_ENV=test_sdk tape tests/clientSDK.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/account.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/ipfs.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/mailbox.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/domains.test.js | tap-spec",
+    "test": "cross-env NODE_ENV=test_sdk tape tests/crypto.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/setup.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/clientSDK.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/account.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/ipfs.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/mailbox.test.js | tap-spec && cross-env NODE_ENV=test_sdk tape tests/domains.test.js | tap-spec",
     "debug": "cross-env NODE_ENV=test_sdk tape tests/drive.test.js | tap-spec --nolazy --debug-brk=5858"
   },
   "repository": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/Telios-org/client-sdk",
   "dependencies": {
-    "@telios/nebula": "^4.0.2",
+    "@telios/nebula": "^4.0.4",
     "async": "^3.2.0",
     "axios": "^0.21.1",
     "blakejs": "^1.1.0",

@@ -1,5 +1,5 @@
 const tape = require('tape');
-const { Crypto } = require('..');
+const Crypto = require('@telios/nebula/lib/crypto');
 
 tape('Encrypt message string from AED key', async t => {
   const secret = Crypto.generateAEDKey();
