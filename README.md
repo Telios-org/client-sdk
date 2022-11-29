@@ -98,8 +98,6 @@ const teliosSDK = await new ClientSDK()
 const Account = teliosSDK.Account
 // Mailbox Class provides functionality needed to process encrypted emails
 const Mailbox = teliosSDK.Mailbox
-// Crypto modules is a collection of helper functions
-const Crypto = teliosSDK.Crypto
 
 // Variables set through the constructor are available through client
 const {
