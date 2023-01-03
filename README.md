@@ -852,13 +852,15 @@ Send an email invite to another user to claim their mailbox. The invite email wi
 
 - `addr`: String of the claimable mailbox address `bob@telios.app`
 - `inviteEmail`: String of the email address to send the invite to. Note that this also becomes the recovery email for this business user
+- `password`: String of the temporary password the new user will need to claim the account. Once their account has been claimed/sync they will immediately be asked to replace this temporary pass with their own.
 
 Example usage:
 
 ```js
 const payload = {
   addr:'bob@telios.app',
-  inviteEmail: 'bob@mail.com'
+  inviteEmail: 'bob@mail.com',
+  password: 'letmein1234'
 };
 
 await Domain.sendMailboxInvite(payload);

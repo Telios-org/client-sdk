@@ -178,7 +178,8 @@ test('Domains - send email invite', async t => {
 
   const payload = {
     addr:'bob@telios.app',
-    inviteEmail: 'bob@mail.com'
+    inviteEmail: 'bob@mail.com',
+    password: 'letmein1234'
   };
 
   try {
