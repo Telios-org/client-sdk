@@ -846,3 +846,20 @@ const payload = {
 await Domain.deleteMailbox(payload);
 ```
 
+#### `await Domain.sendMailboxInvite(payload)`
+
+Send an email invite to another user to claim their mailbox. The invite email will send them a code and a temporary password to claim their account.
+
+- `addr`: String of the claimable mailbox address `bob@telios.app`
+- `inviteEmail`: String of the email address to send the invite to. Note that this also becomes the recovery email for this business user
+
+Example usage:
+
+```js
+const payload = {
+  addr:'bob@telios.app',
+  inviteEmail: 'bob@mail.com'
+};
+
+await Domain.sendMailboxInvite(payload);
+```

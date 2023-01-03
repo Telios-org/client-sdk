@@ -170,3 +170,21 @@ test('Domains - delete mailbox', async t => {
     t.fail(err);
   }
 });
+
+test('Domains - send email invite', async t => {
+  t.plan(1);
+
+  const domain = await initDomains();
+
+  const payload = {
+    addr:'bob@telios.app',
+    inviteEmail: 'bob@mail.com'
+  };
+
+  try {
+    const res = await domain.sendMailboxInvite(payload);
+    t.ok(res.code);
+  } catch(err) {
+    t.fail(err);
+  }
+});
