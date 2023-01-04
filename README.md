@@ -789,7 +789,7 @@ Register a mailbox under a custom domain.
 
 - `name`: String of the mailbox display name `Bob Test`
 - `addr`: String of the full mailbox address with custom domain `bob@telios.app`
-- `mailbox_key`: String of the mailbox public key
+- `account_key`: String of the mailbox account's public key
 
 Example usage:
 
@@ -797,7 +797,7 @@ Example usage:
 const payload = {
   name: 'Bob Tester',
   addr:'bob@telios.app',
-  mailbox_key: '0000000000000000000000000000000000000000000000000000000000000000'
+  account_key: '0000000000000000000000000000000000000000000000000000000000000000'
 };
 
 await Domain.registerMailbox(payload);
